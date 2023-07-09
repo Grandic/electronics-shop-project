@@ -1,7 +1,7 @@
 """Здесь надо написать тесты с использованием pytest для модуля item."""
 import pytest
 
-from src.item import Item
+from src.item import Item, KeyBoard
 from src.phone import Phone
 
 
@@ -13,6 +13,10 @@ def exemple():
 @pytest.fixture
 def exemple2():
     return Phone("iPhone 14", 120_000, 5, 2)
+
+@pytest.fixture
+def exemple3():
+    return KeyBoard('Dark Project KD87A', 9600, 5)
 
 
 def test_calculate_total_price(exemple):
@@ -41,3 +45,11 @@ def test_add(exemple, exemple2):
 
 def test_number_of_sim(exemple2):
     assert exemple2.number_of_sim == 2
+
+def test_str(exemple3):
+    assert str(exemple3) == "Dark Project KD87A"
+    assert str(exemple3.language) == "EN"
+    exemple3.change_lang()
+    assert str(exemple3.language) == "RU"
+    exemple3.change_lang().change_lang()
+    assert str(exemple3.language) == "RU"
