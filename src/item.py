@@ -16,6 +16,7 @@ class Item:
         :param price: Цена за единицу товара.
         :param quantity: Количество товара в магазине.
         """
+        super().__init__()
         self.price = price
         self.quantity = quantity
         self.all.append(self)
@@ -72,3 +73,25 @@ class Item:
             self.__name = value
         else:
             self.__name = value[:10]
+
+
+class MixinLog:
+    Language = "EN"
+    def __init__(self):
+        self.__language = MixinLog.Language
+
+    @property
+    def language(self):
+        return self.__language
+
+    def change_lang(self):
+        if self.__language == "EN":
+            self.__language = "RU"
+        elif self.__language == "RU":
+            self.__language == "EN"
+        return self
+
+
+class KeyBoard(Item, MixinLog):
+    def __init__(self, name: str, price: float, quantity: int):
+        super().__init__(name, price, quantity)
