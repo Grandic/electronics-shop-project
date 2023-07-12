@@ -54,14 +54,20 @@ class Item:
     @classmethod
     def instantiate_from_csv(cls):
         Item.all.clear()
-        with open("../src/items.csv", newline='', encoding="cp1251") as csvfile:
-            reader = csv.DictReader(csvfile)
-            for row in reader:
-                name = row["name"]
-                price = row["price"]
-                quantity = row["quantity"]
-                product = cls(name, price, quantity)
-        return product
+        try:
+            with open("../src/items.csv", newline='', encoding="cp1251") as csvfile:
+                reader = csv.DictReader(csvfile)
+                for row in reader:
+                    name = row["name"]
+                    price = row["price"]
+                    quantity = row["quantity"]
+                    product = cls(name, price, quantity)
+            if (len(Item.all)) == 5:
+                return product
+            else:
+                raise InstantiateCSVError("Файл item.csv поврежден")
+        except FileNotFoundError:
+            print('Отсутствует файл item.csv')
 
     @property
     def name(self):
@@ -77,6 +83,7 @@ class Item:
 
 class MixinLog:
     Language = "EN"
+
     def __init__(self):
         self.__language = MixinLog.Language
 
@@ -95,3 +102,8 @@ class MixinLog:
 class KeyBoard(Item, MixinLog):
     def __init__(self, name: str, price: float, quantity: int):
         super().__init__(name, price, quantity)
+
+
+class InstantiateCSVError(Exception):
+    def __init__(self, message):
+        self.message = message
