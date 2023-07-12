@@ -1,6 +1,5 @@
 """Здесь надо написать тесты с использованием pytest для модуля item."""
 import pytest
-
 from src.item import Item, KeyBoard
 from src.phone import Phone
 
@@ -53,3 +52,6 @@ def test_str(exemple3):
     assert str(exemple3.language) == "RU"
     exemple3.change_lang().change_lang()
     assert str(exemple3.language) == "RU"
+
+def test_Errors():
+    assert Item.instantiate_from_csv() == 'Файл item.csv поврежден'
